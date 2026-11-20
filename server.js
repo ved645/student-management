@@ -3,6 +3,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const path = require("path");
+const fs = require("fs");
 
 // Load environment variables
 dotenv.config();
@@ -19,10 +21,23 @@ const studentRoutes = require("./routes/studentRoutes");
 
 app.use("/api/students", studentRoutes);
 
-// Home route
-app.get("/", (req, res) => {
-    res.send("Student Management API is running!");
-});
+// Static client build serving (if frontend is built)
+const clientDistPath = path.join(__dirname, "client", "dist");
+if (fs.existsSync(clientDistPath)) {
+    app.use(express.static(clientDistPath));
+
+    app.get("*", (req, res, next) => {
+        if (req.path.startsWith("/api")) {
+            return next();
+        }
+        res.sendFile(path.join(clientDistPath, "index.html"));
+    });
+} else {
+    // Fallback home route when client is not built
+    app.get("/", (req, res) => {
+        res.send("Student Management API is running!");
+    });
+}
 
 mongoose
     .connect(process.env.MONGO_URI)

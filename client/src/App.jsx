@@ -2,7 +2,11 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 
-const API_URL = "https://student-management-system-mjf5.onrender.com/api/students";
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  (window.location.port === "5173" || window.location.port === "3000"
+    ? "http://localhost:5000/api/students"
+    : "/api/students");
 
 function App() {
   const [activePage, setActivePage] = useState("Dashboard");

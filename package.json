@@ -1,13 +1,19 @@
 {
   "name": "student-management-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Full-stack Student Management System",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "build": "npm --prefix client install && npm --prefix client run build"
   },
-  "keywords": [],
+  "keywords": [
+    "student-management",
+    "express",
+    "react",
+    "mongodb"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
